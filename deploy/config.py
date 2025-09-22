@@ -17,7 +17,6 @@ class ConfigModel:
     GitProxy: Optional[str] = None
     SSLVerify: bool = False
     AutoUpdate: bool = True
-    KeepLocalChanges: bool = False
 
     # Python
     PythonExecutable: str = "./toolkit/python.exe"
@@ -54,6 +53,8 @@ class ConfigModel:
     # Webui
     WebuiHost: str = "0.0.0.0"
     WebuiPort: int = 22267
+    WebuiSSLKey: Optional[str] = None
+    WebuiSSLCert: Optional[str] = None
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True
@@ -90,6 +91,9 @@ class DeployConfig(ConfigModel):
         logger.info(f"Rest of the configs are the same as default")
 
     def read(self):
+        """
+        Read and update deploy config, copy `self.configs` to properties.
+        """
         self.config = poor_yaml_read(DEPLOY_TEMPLATE)
         self.config_template = copy.deepcopy(self.config)
         origin = poor_yaml_read(self.file)
