@@ -595,7 +595,7 @@ class ConfigUpdater:
         # 2025.04.17
         # ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_frostfall),
         # 2025.06.26
-        ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_little_academy),
+        # ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_little_academy),
     ]
 
     # redirection += [
@@ -640,6 +640,8 @@ class ConfigUpdater:
             deep_set(new, 'Alas.DropRecord.AzurStatsID', None)
         else:
             deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
+        if deep_get(new, keys='OpsiHazard1Leveling.Scheduler.Enable'):
+            deep_set(new, keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
         # Update to latest event
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
@@ -670,7 +672,7 @@ class ConfigUpdater:
         for task in EVENTS + WAR_ARCHIVES:
             default_stage(task, 'D3')
         for task in COALITIONS:
-            default_stage(task, 'hard')
+            default_stage(task, 'area1-normal')
 
         if not is_template:
             new = self.config_redirect(old, new)
